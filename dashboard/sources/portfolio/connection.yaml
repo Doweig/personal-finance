@@ -1,0 +1,4 @@
+name: portfolio
+type: duckdb
+options:
+  filename: ../../../data/portfolio.duckdb
