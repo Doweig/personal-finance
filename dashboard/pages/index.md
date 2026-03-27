@@ -96,7 +96,7 @@ order by r.name
 
 <BigValue data={kpi_dividends} value=total_dividends title="Total Dividends (THB)" fmt='#,##0' />
 
-<DataTable data={restaurant_summary}>
+<DataTable data={restaurant_summary} link=link_col>
     <Column id=name title="Restaurant" />
     <Column id=ownership_pct title="Ownership %" fmt='0.0"%"' />
     <Column id=invested title="Invested (THB)" fmt='#,##0' />
