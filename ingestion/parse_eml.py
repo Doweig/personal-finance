@@ -169,6 +169,20 @@ def _extract_dividend(body: str) -> dict | None:
     if "partage" not in body.lower():
         return None
 
+    total_thb = None
+    total_patterns = [
+        r"partageons\s+la\s+somme\s+de\s+([0-9][0-9,]*(?:\.\d+)?)\s*thb",
+        r"share\s+the\s+sum\s+of\s+([0-9][0-9,]*(?:\.\d+)?)\s*thb",
+    ]
+    for pattern in total_patterns:
+        m = re.search(pattern, body, re.IGNORECASE)
+        if m:
+            try:
+                total_thb = float(m.group(1).replace(",", ""))
+            except ValueError:
+                total_thb = None
+            break
+
     lines = body.split("\n")
     for i, line in enumerate(lines):
         if line.strip().lower() == "guillaume":
@@ -184,7 +198,7 @@ def _extract_dividend(body: str) -> dict | None:
                 candidate_clean = candidate.replace(",", "")
                 try:
                     amount = float(candidate_clean)
-                    return {"my_share_thb": amount}
+                    return {"total_thb": total_thb, "my_share_thb": amount}
                 except ValueError:
                     continue
     return None

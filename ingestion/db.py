@@ -68,7 +68,8 @@ def create_schema(conn):
             date DATE NOT NULL,
             total_thb DOUBLE,
             my_share_thb DOUBLE,
-            comment TEXT
+            comment TEXT,
+            PRIMARY KEY (restaurant_id, date)
         )
     """)
 
@@ -138,11 +139,21 @@ def upsert_monthly_pl(conn, row):
 
 
 def insert_dividend(conn, row):
-    """Insert a dividend record."""
+    """Insert or update a dividend record."""
     conn.execute("""
         INSERT INTO dividends (restaurant_id, date, total_thb, my_share_thb, comment)
         VALUES ($1, $2, $3, $4, $5)
+        ON CONFLICT (restaurant_id, date) DO UPDATE SET
+            total_thb = EXCLUDED.total_thb,
+            my_share_thb = EXCLUDED.my_share_thb,
+            comment = EXCLUDED.comment
     """, [
         row["restaurant_id"], row["date"], row["total_thb"],
         row["my_share_thb"], row.get("comment"),
     ])
+
+
+def clear_all_data(conn):
+    """Delete all table rows while preserving schema."""
+    for table in ["dividends", "monthly_pl", "investments", "ownership", "restaurants"]:
+        conn.execute(f"DELETE FROM {table}")

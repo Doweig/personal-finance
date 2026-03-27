@@ -71,6 +71,7 @@ class TestParseDividendPresent:
         result = parse_eml_file(INBOX / "P&L Mozza EmQuartier February 2026.eml")
         assert result["dividend"] is not None
         assert result["dividend"]["my_share_thb"] > 0
+        assert result["dividend"]["total_thb"] == 2_500_000.0
 
 
 class TestParseDividendAbsent:

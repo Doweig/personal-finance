@@ -16,18 +16,19 @@ Personal finance system for tracking restaurant investments in Thailand. Replace
 uv sync
 ```
 
-### 2. Seed the database from CSV seed data
+### 2. Rebuild the database from CSV source-of-truth
 
 ```bash
-uv run python -m ingestion.cli import-csv data/
+uv run python -m ingestion.cli rebuild-db data/
 ```
 
-### 3. Ingest email reports
+### 3. Process monthly emails into CSVs (recommended)
 
 Save `.eml` files from monthly P&L emails into `inbox/`, then:
 
 ```bash
-uv run python -m ingestion.cli ingest inbox/
+uv run python -m ingestion.cli process-inbox inbox/
+uv run python -m ingestion.cli rebuild-db data/
 ```
 
 ### 4. Start the dashboard
@@ -51,13 +52,49 @@ uv run python -m ingestion.cli import-csv data/
 
 Reads `data/*.csv` files (restaurants, investments, ownership, monthly_pl, dividends) into DuckDB. Edit the CSVs directly to correct historical data.
 
-### Ingest email reports
+### Process inbox emails into CSVs (recommended)
+
+```bash
+uv run python -m ingestion.cli process-inbox inbox/
+```
+
+Parses all `.eml` files, upserts `data/monthly_pl.csv` and `data/dividends.csv`, and archives processed files to `inbox/archive/YYYY-MM/`.
+
+Useful options:
+
+```bash
+# Preview extraction only
+uv run python -m ingestion.cli process-inbox inbox/ --dry-run
+
+# Keep source emails in place (no archive move)
+uv run python -m ingestion.cli process-inbox inbox/ --no-archive
+```
+
+### Rebuild DuckDB from CSVs
+
+```bash
+uv run python -m ingestion.cli rebuild-db data/
+```
+
+Deletes/recreates `data/portfolio.duckdb` and loads all CSVs. This keeps reruns deterministic and avoids drift.
+
+### Legacy direct DB ingest (kept for compatibility)
 
 ```bash
 uv run python -m ingestion.cli ingest inbox/
 ```
 
-Processes all `.eml` files in the directory. Extracts P&L data and dividend payments (looks for "Guillaume" in profit-sharing tables). Safe to re-run -- existing months are updated, not duplicated.
+Writes email extraction directly into DuckDB (without touching CSVs).
+
+### Optional LLM extraction for tricky emails
+
+```bash
+# Generate a Codex/ChatGPT prompt from one .eml
+uv run python -m ingestion.cli extract-email "inbox/P&L Mozza EmQuartier February 2026.eml"
+
+# Call OpenAI API directly (requires OPENAI_API_KEY)
+uv run python -m ingestion.cli extract-email "inbox/P&L Mozza EmQuartier February 2026.eml" --provider openai
+```
 
 ### Manual data entry
 
@@ -76,16 +113,18 @@ uv run python -m ingestion.cli add-dividend mozza-emq --date 2026-03-15 --total 
 
 1. Receive P&L email from HMA
 2. Save as `.eml` into `inbox/`
-3. Run `uv run python -m ingestion.cli ingest inbox/`
-4. Refresh dashboard: `cd dashboard && bun run sources && bun run dev`
+3. Run `uv run python -m ingestion.cli process-inbox inbox/`
+4. Rebuild DB: `uv run python -m ingestion.cli rebuild-db data/`
+5. Refresh dashboard: `cd dashboard && bun run sources && bun run dev`
 
 ## Dashboard Pages
 
 | Page | URL | Content |
 |---|---|---|
-| Portfolio Overview | `/` | KPI cards (invested, valuation, dividends), restaurant summary table |
+| Home | `/` | Portfolio KPIs and high-level restaurant snapshot |
+| Restaurants | `/restaurants` | Per-restaurant summary + moving-average trend charts |
 | Restaurant Detail | `/restaurants/{id}` | Revenue/GOP charts, margins, valuations, P&L table |
-| My Returns | `/returns` | Dividend history, cumulative chart, ROI, IRR per restaurant |
+| Returns | `/returns` | Dividend history, cumulative chart, ROI, IRR per restaurant |
 
 ## Restaurant IDs
 
@@ -128,6 +167,8 @@ personal-finance/
 │   ├── cli.py               # CLI entry point
 │   ├── db.py                # Schema + CRUD helpers
 │   ├── parse_eml.py         # Email P&L parser
+│   ├── process_inbox.py     # CSV-first inbox workflow + archiving
+│   ├── extract_llm.py       # Optional LLM extraction helpers
 │   └── import_csv.py        # CSV seed data import
 ├── tests/                   # pytest suite
 ├── dashboard/               # Evidence.dev project

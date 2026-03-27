@@ -94,6 +94,28 @@ class TestInsertDividend:
         assert result[0] == 12_500.0
         assert result[1] == "Q1 dividend"
 
+    def test_upsert(self, conn):
+        _helper_insert_restaurant(conn)
+        row = {
+            "restaurant_id": "r1",
+            "date": "2025-03-15",
+            "total_thb": 50_000.0,
+            "my_share_thb": 12_500.0,
+            "comment": "Q1 dividend",
+        }
+        insert_dividend(conn, row)
+        row["my_share_thb"] = 13_000.0
+        row["comment"] = "revised"
+        insert_dividend(conn, row)
+
+        count = conn.execute("SELECT COUNT(*) FROM dividends").fetchone()[0]
+        result = conn.execute(
+            "SELECT my_share_thb, comment FROM dividends WHERE restaurant_id='r1' AND date='2025-03-15'"
+        ).fetchone()
+        assert count == 1
+        assert result[0] == 13_000.0
+        assert result[1] == "revised"
+
 
 class TestInsertInvestment:
     def test_insert(self, conn):

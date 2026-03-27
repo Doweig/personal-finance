@@ -1,6 +1,35 @@
 ---
-title: My Returns
+title: Returns
 ---
+
+<script>
+    import PageNav from '../../components/PageNav.svelte';
+    import IRRCalculator from '../../components/IRRCalculator.svelte';
+
+    const now = new Date();
+
+    function monthsAgo(dateStr) {
+        const d = new Date(dateStr);
+        return (now.getFullYear() - d.getFullYear()) * 12 + (now.getMonth() - d.getMonth());
+    }
+
+    $: grouped = (() => {
+        const map = {};
+        if (cashflows_for_irr && cashflows_for_irr.length > 0) {
+            for (const row of cashflows_for_irr) {
+                const name = row.restaurant_name;
+                if (!map[name]) map[name] = [];
+                map[name].push({
+                    months_ago: monthsAgo(row.date),
+                    amount: row.amount
+                });
+            }
+        }
+        return Object.entries(map).sort((a, b) => a[0].localeCompare(b[0]));
+    })();
+</script>
+
+<PageNav active="returns" />
 
 ```sql dividend_history
 select
@@ -110,32 +139,6 @@ order by restaurant_name, date
 <LineChart data={cumulative_by_restaurant} x=date y=cumulative_dividends series=restaurant_name yFmt='#,##0' title="Cumulative Dividends by Restaurant" />
 
 ## Internal Rate of Return (IRR)
-
-<script>
-    import IRRCalculator from '../../components/IRRCalculator.svelte';
-
-    const now = new Date();
-
-    function monthsAgo(dateStr) {
-        const d = new Date(dateStr);
-        return (now.getFullYear() - d.getFullYear()) * 12 + (now.getMonth() - d.getMonth());
-    }
-
-    $: grouped = (() => {
-        const map = {};
-        if (cashflows_for_irr && cashflows_for_irr.length > 0) {
-            for (const row of cashflows_for_irr) {
-                const name = row.restaurant_name;
-                if (!map[name]) map[name] = [];
-                map[name].push({
-                    months_ago: monthsAgo(row.date),
-                    amount: row.amount
-                });
-            }
-        }
-        return Object.entries(map).sort((a, b) => a[0].localeCompare(b[0]));
-    })();
-</script>
 
 {#each grouped as [name, cfs]}
 <div style="margin-bottom: 1.5rem;">

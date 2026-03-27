@@ -1,10 +1,13 @@
 """CLI entry point for restaurant portfolio data ingestion."""
 
 import argparse
+import json
 import sys
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 
 from ingestion.db import (
+    clear_all_data,
     create_schema,
     get_connection,
     insert_dividend,
@@ -13,26 +16,34 @@ from ingestion.db import (
     insert_restaurant,
     upsert_monthly_pl,
 )
+from ingestion.extract_llm import build_codex_prompt, extract_with_openai
 from ingestion.import_csv import import_csv
 from ingestion.parse_eml import parse_eml_file
+from ingestion.process_inbox import process_inbox_to_csv
+from ingestion.restaurants import ID_TO_CANONICAL_NAME, RESTAURANT_NAME_MAP
 
-RESTAURANT_NAME_MAP = {
-    "Mozza EmQuartier": "mozza-emq",
-    "Mozza Emquartier": "mozza-emq",
-    "Cocotte": "cocotte-39",
-    "Mozza Paragon": "mozza-prg",
-    "Mozza Icon Siam": "mozza-icsm",
-    "Mozza IconSiam": "mozza-icsm",
-    "Mozza Central Park": "mozza-cp",
-    "Parma Eastville": "parma-eastville",
-    "Parma Central Eastville": "parma-eastville",
-}
 
-# Reverse lookup: restaurant_id -> canonical name
-_ID_TO_NAME = {}
-for _name, _rid in RESTAURANT_NAME_MAP.items():
-    if _rid not in _ID_TO_NAME:
-        _ID_TO_NAME[_rid] = _name
+def _resolve_db_path(db_arg):
+    if db_arg is not None:
+        return Path(db_arg)
+    return Path(__file__).resolve().parent.parent / "data" / "portfolio.duckdb"
+
+
+def _print_table_counts(conn):
+    tables = ["restaurants", "monthly_pl", "dividends", "investments", "ownership"]
+    for table in tables:
+        count = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+        print(f"  {table}: {count} rows")
+
+
+def _email_date_or_month(data):
+    email_date = data.get("email_date")
+    if email_date:
+        try:
+            return parsedate_to_datetime(email_date).date().isoformat()
+        except (TypeError, ValueError):
+            pass
+    return data["month"]
 
 
 def cmd_import_csv(args):
@@ -40,17 +51,12 @@ def cmd_import_csv(args):
     conn = get_connection(args.db)
     create_schema(conn)
     import_csv(conn, args.data_dir)
-
-    # Print row counts
-    tables = ["restaurants", "monthly_pl", "dividends", "investments", "ownership"]
-    for table in tables:
-        count = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
-        print(f"  {table}: {count} rows")
+    _print_table_counts(conn)
     conn.close()
 
 
 def cmd_ingest(args):
-    """Process all .eml files in the inbox directory."""
+    """Legacy: process all .eml files directly into DuckDB."""
     inbox = Path(args.inbox_dir)
     if not inbox.is_dir():
         print(f"ERROR: {inbox} is not a directory", file=sys.stderr)
@@ -85,7 +91,7 @@ def cmd_ingest(args):
             continue
 
         # Ensure restaurant exists
-        canonical_name = _ID_TO_NAME.get(restaurant_id, restaurant_name)
+        canonical_name = ID_TO_CANONICAL_NAME.get(restaurant_id, restaurant_name)
         insert_restaurant(conn, {
             "id": restaurant_id,
             "name": canonical_name,
@@ -103,7 +109,7 @@ def cmd_ingest(args):
             div = data["dividend"]
             insert_dividend(conn, {
                 "restaurant_id": restaurant_id,
-                "date": data["month"],
+                "date": _email_date_or_month(data),
                 "total_thb": div.get("total_thb", div.get("my_share_thb")),
                 "my_share_thb": div["my_share_thb"],
                 "comment": None,
@@ -114,6 +120,59 @@ def cmd_ingest(args):
 
     conn.close()
     print(f"\nSummary: {imported} imported, {skipped} skipped, {errors} errors")
+
+
+def cmd_process_inbox(args):
+    """CSV-first workflow: parse inbox into CSVs, archive files."""
+    try:
+        result = process_inbox_to_csv(
+            inbox_dir=args.inbox_dir,
+            data_dir=args.data_dir,
+            archive_dir=args.archive_dir,
+            dry_run=args.dry_run,
+            archive_processed=(not args.no_archive),
+        )
+    except ValueError as e:
+        print(f"ERROR: {e}", file=sys.stderr)
+        sys.exit(1)
+
+    print(f"Processed: {result.processed_files}, skipped: {result.skipped_files}, errors: {result.error_files}")
+    print(f"monthly_pl.csv: +{result.monthly_inserted} inserted, ~{result.monthly_updated} updated")
+    print(f"dividends.csv: +{result.dividend_inserted} inserted, ~{result.dividend_updated} updated")
+    if args.no_archive:
+        print("Archive: disabled (--no-archive)")
+    else:
+        print(f"Archived emails: {result.archived_files}{' (dry-run)' if args.dry_run else ''}")
+
+
+def cmd_rebuild_db(args):
+    """Rebuild DuckDB from CSV source-of-truth files."""
+    db_path = _resolve_db_path(args.db)
+    if db_path.exists():
+        db_path.unlink()
+    db_path.parent.mkdir(parents=True, exist_ok=True)
+
+    conn = get_connection(str(db_path))
+    create_schema(conn)
+    clear_all_data(conn)
+    import_csv(conn, args.data_dir)
+    print(f"Rebuilt DB from CSV at {db_path}")
+    _print_table_counts(conn)
+    conn.close()
+
+
+def cmd_extract_email(args):
+    """Extract one email using either a Codex prompt or OpenAI API."""
+    if args.provider == "codex":
+        print(build_codex_prompt(args.eml_path))
+        return
+
+    try:
+        data = extract_with_openai(args.eml_path, model=args.model)
+    except Exception as e:
+        print(f"ERROR: {e}", file=sys.stderr)
+        sys.exit(1)
+    print(json.dumps(data, indent=2, ensure_ascii=False))
 
 
 def cmd_update_ownership(args):
@@ -170,8 +229,29 @@ def main():
     p_import.add_argument("data_dir", help="Directory containing CSV files (default: data/)", nargs="?", default="data")
     p_import.set_defaults(func=cmd_import_csv)
 
+    # process-inbox (recommended monthly flow)
+    p_proc = sub.add_parser("process-inbox", help="Parse inbox .eml files and upsert data/*.csv")
+    p_proc.add_argument("inbox_dir", help="Directory containing .eml files")
+    p_proc.add_argument("--data-dir", default="data", help="Directory containing source CSV files")
+    p_proc.add_argument("--archive-dir", default=None, help="Archive directory (default: <inbox>/archive)")
+    p_proc.add_argument("--dry-run", action="store_true", help="Parse and report only (no writes/moves)")
+    p_proc.add_argument("--no-archive", action="store_true", help="Do not move processed .eml files")
+    p_proc.set_defaults(func=cmd_process_inbox)
+
+    # rebuild-db
+    p_rebuild = sub.add_parser("rebuild-db", help="Recreate DuckDB from CSV source files")
+    p_rebuild.add_argument("data_dir", help="Directory containing CSV files (default: data/)", nargs="?", default="data")
+    p_rebuild.set_defaults(func=cmd_rebuild_db)
+
+    # extract-email
+    p_extract = sub.add_parser("extract-email", help="Extract one .eml with Codex prompt or OpenAI API")
+    p_extract.add_argument("eml_path", help="Path to one .eml file")
+    p_extract.add_argument("--provider", choices=["codex", "openai"], default="codex")
+    p_extract.add_argument("--model", default="gpt-4.1-mini", help="OpenAI model (provider=openai)")
+    p_extract.set_defaults(func=cmd_extract_email)
+
     # ingest
-    p_ingest = sub.add_parser("ingest", help="Process .eml files from inbox")
+    p_ingest = sub.add_parser("ingest", help="Legacy: process .eml files directly into DuckDB")
     p_ingest.add_argument("inbox_dir", help="Directory containing .eml files")
     p_ingest.set_defaults(func=cmd_ingest)
 
