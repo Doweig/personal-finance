@@ -10,7 +10,6 @@ from pathlib import Path
 import openpyxl
 
 from ingestion.db import (
-    create_schema,
     insert_dividend,
     insert_investment,
     insert_ownership,
