@@ -1,0 +1,1627 @@
+Delivered-To: guillaume.verbal@gmail.com
+Received: by 2002:a05:7412:2205:b0:1ba:e160:5028 with SMTP id r5csp498912rda;
+        Wed, 25 Mar 2026 03:39:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUt8HR+DfL/NJkdXkYX6OdOEhzHidqNrEra7VkjcvPCApYsT4JSEMx5HLGJ1xZtICfsOvJ3/V48hac3icOEVgKp@gmail.com
+X-Received: by 2002:a05:7022:618f:b0:12a:6a64:81ef with SMTP id a92af1059eb24-12a96e48c61mr1776377c88.9.1774435164780;
+        Wed, 25 Mar 2026 03:39:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774435164; cv=none;
+        d=google.com; s=arc-20240605;
+        b=QByx9wS09hpiNwW/o3KPSTl7DucIanZO05+yDC/qDJ9+cz64BVvhroChLn/Tj5ZqYT
+         mx5OccKzXpu5TULT7HL8bFnkew4fFW6DJiwLmwIse/4FrAd9vXXXFEA2efdN1eMOE/F/
+         g59HyjnaZvjRE2PnpKFcbIHAwHiZmrO/oV0zgq1b6La6hHLlCbCWy4RPeX/1ilQBWCdR
+         PDQpV4MC7sX/3bFYfxwNlyptcvJPzkqM5UxXadUtN5f4Bw2N+vWIaR8esqa7ucOvLTxV
+         PkyjSIme4dp0bmYOTEzroDu7pYFQJYDq+Wx+QXkTxLqfYCStPkWyrEAwOsvYpgDzPqMi
+         +6Qg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=thread-index:content-language:mime-version:message-id:date:subject
+         :to:from;
+        bh=HYQ8n2+YKNbyFSrj4LAJjLVLA1JLQW+zFZal3N7deC0=;
+        fh=4RTV+qWf6DaV6q1VWwMR9vJYpCT3f6keeXkhxXC6q1c=;
+        b=J5P4rV9fVZCHkb/cXGm+qhlSzz+QN3v6Zt8fqTki0C8w2CNFlXUsiFlkebWLxvuMBR
+         q1bzTQX2PgQhBM1SL6lTY+OQagJKkI9SD1h1qAgqRkyjWtIzQhmTGU8EIyVz3hBJtVKw
+         LTltlPgQ/vNAyMjdGxt4nJ+WQaTjmwAT86ztb1D4VrFwEbuCLwVni3pwWmJ/jDxrSnI9
+         eKS1t8atMV/710bIKgo2cfOGWOY+xpVWT3WmykuteeQbR2iWE+a0oSqS3wmmfQotfHpT
+         3AybdZrtCZfPGcDDDzxK7l81RfndeNmSYcd/BLUqsmHhqHCNHZXWe6M9Cp7gpO2XCYJO
+         LVgw==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=pass (google.com: domain of david.n@hmgtasia.com designates 50.63.9.83 as permitted sender) smtp.mailfrom=david.n@hmgtasia.com
+Return-Path: <david.n@hmgtasia.com>
+Received: from osnlsmtp01-07.prod.phx3.secureserver.net (osnlsmtp01-07.prod.phx3.secureserver.net. [50.63.9.83])
+        by mx.google.com with ESMTPS id a92af1059eb24-12a733f220csi36689590c88.18.2026.03.25.03.39.24
+        for <guillaume.verbal@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 03:39:24 -0700 (PDT)
+Received-SPF: pass (google.com: domain of david.n@hmgtasia.com designates 50.63.9.83 as permitted sender) client-ip=50.63.9.83;
+Authentication-Results: mx.google.com;
+       spf=pass (google.com: domain of david.n@hmgtasia.com designates 50.63.9.83 as permitted sender) smtp.mailfrom=david.n@hmgtasia.com
+Received: from 210.190.109.208.host.secureserver.net ([208.109.190.210])
+	by : HOSTING RELAY : with ESMTPS
+	id 5Ld1wvJcDncFN5Ld1wsZIl; Wed, 25 Mar 2026 10:38:23 +0000
+X-SECURESERVER-ACCT: 208.109.190.210
+x-originating-ip: 208.109.190.210
+X-CMAE-Analysis: v=2.4 cv=Hvjc3UTS c=1 sm=1 tr=0 ts=69c3bb1f
+ a=cAael07o2FOf3bV2vJQtvQ==:117 a=cAael07o2FOf3bV2vJQtvQ==:17
+ a=Yq5XynenixoA:10 a=DAwyPP_o2Byb1YXLmDAA:9 a=B0K12P_RC009If96f0oA:9
+ a=wPNLvfGTeEIA:10 a=yMhMjlubAAAA:8 a=SSmOFEACAAAA:8 a=R7qT9ElL28qzjhoZluQA:9
+ a=7hhziNg77-PsqzHd:21 a=gKO2Hq4RSVkA:10 a=UiCQ7L4-1S4A:10 a=hTZeC7Yk6K0A:10
+ a=frz4AuCg-hUA:10 a=-zkSFZFsjVcAmnSSTNwA:9 a=IKIoO-ieCDEA:10
+ a=7qx8gLC0iM8A:10 a=k92MKxcbr7QA:10 a=X1c0k9nRQnjIoBfxGzdG:22
+ a=V8WeqYrSlRWTqHkrrkHw:22
+Received: from [58.136.214.93] (port=64933 helo=LAPTOPP7SH3QI5)
+	by 210.190.109.208.host.secureserver.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.99.1)
+	(envelope-from <david.n@hmgtasia.com>)
+	id 1w5Ld0-0000000DZPJ-255Q;
+	Wed, 25 Mar 2026 10:38:23 +0000
+From: <david.n@hmgtasia.com>
+To: <david.n@hmgtasia.com>
+Subject: P&L Mozza Icon Siam February 2026
+Date: Wed, 25 Mar 2026 17:38:17 +0700
+Message-ID: <025e01dcbc43$80ef4f30$82cded90$@hmgtasia.com>
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+	boundary="----=_NextPart_000_025F_01DCBC7E.2D4E2730"
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-us
+Thread-Index: Ady8Qt9YdSaqFTodQuCxAWYz5dd0QQ==
+X-CMAE-Envelope: MS4xfFT4RwyuPUt58nZQGgDzqQuG7144epa+mhtUGCY3eq1sih+IDBHUkLKRv8YaVuOL/kQoQziUz/kVAVmKQrHUoPd9mZM7kHJg9YNC2+iDVgVtAzihXKD6
+ a6pGjpXtGbG4U85jjwTrCkvqkQZZy+H4r6SNlZuz/Oo54D5RCWXitZRJXHBVG1+p0c2ijBHpgpeSSl3GRhVYyiKEAwq9scBp3+PVod/zwdb/a7yhiUqRvZZQ
+ 5g6R4N/oEY/Jm5e4qaPYbD4i3Lk/UaFjhoRVEKN1OEt31G3id8E65zSQW8dxx68pgJK1aeBcGMmFQQWOFCBPIDF+z26EVq/9h0Xm0nK1RAw=
+
+This is a multipart message in MIME format.
+
+------=_NextPart_000_025F_01DCBC7E.2D4E2730
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_001_0260_01DCBC7E.2D4E2730"
+
+
+------=_NextPart_001_0260_01DCBC7E.2D4E2730
+Content-Type: text/plain;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+Bonjour Messieurs,
+
+=20
+
+Nous r=E9alisons un chiffre d=92affaires de 5,985,203 THB et un profit =
+de
+1,297,902 THB. Nous partageons 1,000,000 THB et mettons le reste des =
+profits
+en provisions.
+
+=20
+
+Veuillez trouver le P&L simplifie
+
+=20
+
+
+25-Mozza ICON
+
+=09
+
+TOTAL REVENUE
+
+5,985,203
+
+=09
+
+TOTAL REVENUE N-1
+
+3,595,355
+
+=09
+
+Diff N-1
+
+2,389,847
+
+66.47%
+
+
+Rebate
+
+193,397
+
+=09
+
+- Food cost
+
+1,125,331
+
+=09
+
+- Beverage cost
+
+435,385
+
+=09
+
+Total F&B Cost
+
+1,560,716
+
+=09
+
+Total F&B Coef
+
+26.08%
+
+3.83
+
+
+Total Other Ex
+
+3,126,585
+
+=09
+		=09
+
+TOTAL MONTHLY EXP
+
+4,687,301
+
+=09
+
+GOP before fee
+
+1,297,902
+
+=09
+
+Other and Special Fee
+
+	=09
+
+Monthly Provision
+
+0
+
+=09
+		=09
+
+GOP NET
+
+1,297,902
+
+=09
+
+Share (1%)
+
+12,979
+
+=09
+
+=20
+
+
+Ratios
+
+% General Expense
+
+Coeff on Item
+
+
+Total energy
+
+0%
+
+0.00
+
+
+Salary & Bonus
+
+25%
+
+0.00
+
+
+Food Coef
+
+24%
+
+0.00
+
+
+Grill Coef
+
+0%
+
+0.00
+
+
+Ice Cream Coef
+
+0%
+
+0.00
+
+
+Ice Pan Coef
+
+0%
+
+0.00
+
+
+Seafood Coef
+
+0%
+
+0.00
+
+
+Bev Coef
+
+6%
+
+0.00
+
+
+Wine Coef
+
+3%
+
+0.00
+
+
+Total Food Coef
+
+24%
+
+3.84
+
+
+Total Bev Coef
+
+9%
+
+6.07
+
+
+F&B Coef
+
+26%
+
+3.83
+
+
+Rental
+
+27%
+
+0.00
+
+
+Marketing
+
+1%
+
+0.00
+
+
+Maintenance
+
+1%
+
+0.00
+
+		=09
+
+GOP
+
+21.69%
+
+=09
+
+=20
+
+Le partage s=92effectue comme suit :
+
+=20
+
+
+Mozza ICON
+
+=20
+
+=20
+
+
+PROFIT IN THB
+
+=20
+
+1,000,000.00
+
+
+=20
+
+=20
+
+=20
+
+
+David
+
+35.25%
+
+352,500.00
+
+
+Max
+
+35.25%
+
+352,500.00
+
+
+Guillaume
+
+10.00%
+
+100,000.00
+
+
+Jeff
+
+10.00%
+
+100,000.00
+
+
+Cyrille
+
+5.00%
+
+50,000.00
+
+
+Laurent
+
+3.00%
+
+30,000.00
+
+
+Boat
+
+1.00%
+
+10,000.00
+
+
+Paul
+
+0.50%
+
+5,000.00
+
+=20
+
+Les versements seront faits le vendredi 27 mars.
+
+=20
+
+Vous trouverez ci joint le profit tracking :
+
+=20
+
+Best regards,
+
+=20
+
+David N=E9marq
+Co-CEO
+
+HOSPITALITY MANAGEMENT ASIA CO., LTD.
+39 Ekkamai alley soi 12, Prakanong Nueua,
+
+Watthana, Bangkok 10110, Thailand
+
+M: +66 85 928 9935
+
+=20
+
+
+------=_NextPart_001_0260_01DCBC7E.2D4E2730
+Content-Type: text/html;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Diso-8859-1"><meta name=3DGenerator content=3D"Microsoft Word =
+15 (filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Aptos;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:12.0pt;
+	font-family:"Aptos",sans-serif;
+	mso-ligatures:standardcontextual;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Aptos",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#467886" vlink=3D"#96607D" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal><span lang=3DFR =
+style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;mso-ligatures:=
+none'>Bonjour Messieurs,<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DFR =
+style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;mso-ligatures:=
+none'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span lang=3DFR =
+style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;mso-ligatures:=
+none'>Nous r=E9alisons un chiffre d&#8217;affaires de 5,985,203 THB et =
+un profit de 1,297,902 THB. Nous partageons 1,000,000 THB et mettons le =
+reste des profits en provisions.<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DFR =
+style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;mso-ligatures:=
+none'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><b><u><span =
+lang=3DFR =
+style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none;mso-fareast-language:FR'>Veuillez trouver le P&amp;L =
+simplifie<o:p></o:p></span></u></b></p><p class=3DMsoNormal><span =
+lang=3DFR><o:p>&nbsp;</o:p></span></p><table class=3DMsoNormalTable =
+border=3D0 cellspacing=3D0 cellpadding=3D0 width=3D0><tr =
+style=3D'height:24.75pt'><td colspan=3D2 valign=3Dbottom =
+style=3D'border:double black 2.25pt;padding:0in 2.25pt 0in =
+2.25pt;height:24.75pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><b><span =
+style=3D'font-size:18.0pt;font-family:"Calibri",sans-serif;mso-ligatures:=
+none'>25-Mozza ICON<o:p></o:p></span></b></p></td><td valign=3Dbottom =
+style=3D'background:white;padding:0in 2.25pt 0in =
+2.25pt;height:24.75pt'></td></tr><tr style=3D'height:21.0pt'><td =
+valign=3Dbottom style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:none;border-right:solid black =
+1.5pt;background:yellow;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>TOTAL REVENUE<o:p></o:p></span></p></td><td =
+valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.5pt;border-right:solid black 1.5pt;background:yellow;padding:0in =
+2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>5,985,203<o:p></o:p></span></p></td><td =
+valign=3Dbottom style=3D'background:white;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'></td></tr><tr style=3D'height:21.0pt'><td =
+valign=3Dbottom style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:none;border-right:solid black =
+1.5pt;background:yellow;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>TOTAL REVENUE N-1<o:p></o:p></span></p></td><td =
+valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.5pt;border-right:solid black 1.5pt;background:yellow;padding:0in =
+2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>3,595,355<o:p></o:p></span></p></td><td =
+valign=3Dbottom style=3D'border:none;border-bottom:solid black =
+1.5pt;background:white;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'></td></tr><tr style=3D'height:21.0pt'><td =
+valign=3Dbottom style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:none;border-right:solid black =
+1.5pt;background:yellow;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Diff N-1<o:p></o:p></span></p></td><td valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.5pt;border-right:solid black 1.5pt;background:#B7E1CD;padding:0in =
+2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>2,389,847<o:p></o:p></span></p></td><td =
+valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.5pt;border-right:solid black 1.5pt;background:#B7E1CD;padding:0in =
+2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>66.47%<o:p></o:p></span></p></td></tr><tr =
+style=3D'height:21.0pt'><td valign=3Dbottom =
+style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:none;border-right:solid black =
+1.5pt;background:yellow;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Rebate<o:p></o:p></span></p></td><td valign=3Dbottom =
+style=3D'border:none;border-right:solid black =
+1.5pt;background:yellow;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>193,397<o:p></o:p></span></p></td><td valign=3Dbottom =
+style=3D'background:white;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'></td></tr><tr style=3D'height:21.0pt'><td =
+valign=3Dbottom style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:none;border-right:solid black 1.5pt;padding:0in =
+2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>- Food cost<o:p></o:p></span></p></td><td =
+valign=3Dbottom style=3D'border:none;border-right:solid black =
+1.5pt;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal =
+align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>1,125,331<o:p></o:p></span></p></td><td =
+valign=3Dbottom style=3D'background:white;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'></td></tr><tr style=3D'height:21.0pt'><td =
+valign=3Dbottom style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:none;border-right:solid black 1.5pt;padding:0in =
+2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>- Beverage cost<o:p></o:p></span></p></td><td =
+valign=3Dbottom style=3D'border:none;border-right:solid black =
+1.5pt;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal =
+align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>435,385<o:p></o:p></span></p></td><td valign=3Dbottom =
+style=3D'background:white;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'></td></tr><tr style=3D'height:21.0pt'><td =
+valign=3Dbottom style=3D'border:solid black =
+1.5pt;border-top:none;background:#FF6600;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Total F&amp;B Cost<o:p></o:p></span></p></td><td =
+valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.5pt;border-right:solid black 1.5pt;background:#FF6600;padding:0in =
+2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>1,560,716<o:p></o:p></span></p></td><td =
+valign=3Dbottom style=3D'border:none;border-bottom:solid black =
+1.5pt;background:white;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'></td></tr><tr style=3D'height:19.5pt'><td =
+style=3D'border:solid black =
+1.5pt;border-top:none;background:#FFF2CC;padding:0in 2.25pt 0in =
+2.25pt;height:19.5pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Total F&amp;B Coef</span><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;mso-ligatures:=
+none'><o:p></o:p></span></p></td><td =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.5pt;border-right:solid black 1.0pt;background:#FFF2CC;padding:0in =
+2.25pt 0in 2.25pt;height:19.5pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>26.08%</span><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;mso-ligatures:=
+none'><o:p></o:p></span></p></td><td =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.5pt;border-right:solid black 1.5pt;background:#FFF2CC;padding:0in =
+2.25pt 0in 2.25pt;height:19.5pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>3.83</span><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;mso-ligatures:=
+none'><o:p></o:p></span></p></td></tr><tr style=3D'height:21.0pt'><td =
+valign=3Dbottom style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:none;border-right:solid black =
+1.5pt;background:#FF6600;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Total Other Ex<o:p></o:p></span></p></td><td =
+valign=3Dbottom style=3D'border:none;border-right:solid black =
+1.5pt;background:#FF6600;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>3,126,585<o:p></o:p></span></p></td><td =
+valign=3Dbottom style=3D'background:white;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'></td></tr><tr style=3D'height:19.5pt'><td =
+valign=3Dbottom style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:none;border-right:solid black =
+1.5pt;background:white;padding:0in 2.25pt 0in =
+2.25pt;height:19.5pt'></td><td valign=3Dbottom =
+style=3D'border:none;border-right:solid black =
+1.5pt;background:white;padding:0in 2.25pt 0in =
+2.25pt;height:19.5pt'></td><td valign=3Dbottom =
+style=3D'background:white;padding:0in 2.25pt 0in =
+2.25pt;height:19.5pt'></td></tr><tr style=3D'height:8.25pt'><td =
+valign=3Dbottom style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:none;border-right:solid black =
+1.5pt;background:#FF6600;padding:0in 2.25pt 0in 2.25pt;height:8.25pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>TOTAL MONTHLY EXP<o:p></o:p></span></p></td><td =
+valign=3Dbottom style=3D'border:none;border-right:solid black =
+1.5pt;background:#FF6600;padding:0in 2.25pt 0in 2.25pt;height:8.25pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>4,687,301<o:p></o:p></span></p></td><td =
+valign=3Dbottom style=3D'background:white;padding:0in 2.25pt 0in =
+2.25pt;height:8.25pt'></td></tr><tr style=3D'height:21.0pt'><td =
+valign=3Dbottom style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:none;border-right:solid black =
+1.5pt;background:red;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>GOP before fee<o:p></o:p></span></p></td><td =
+valign=3Dbottom style=3D'border:none;border-right:solid black =
+1.5pt;background:red;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>1,297,902<o:p></o:p></span></p></td><td =
+valign=3Dbottom style=3D'background:white;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'></td></tr><tr style=3D'height:21.0pt'><td =
+valign=3Dbottom style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:none;border-right:solid black =
+1.5pt;background:red;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Other and Special Fee<o:p></o:p></span></p></td><td =
+valign=3Dbottom style=3D'border:none;border-right:solid black =
+1.5pt;background:red;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'></td><td valign=3Dbottom =
+style=3D'background:white;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'></td></tr><tr style=3D'height:19.5pt'><td =
+valign=3Dbottom style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:none;border-right:solid black =
+1.5pt;background:red;padding:0in 2.25pt 0in 2.25pt;height:19.5pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Monthly Provision<o:p></o:p></span></p></td><td =
+valign=3Dbottom style=3D'border:none;border-right:solid black =
+1.5pt;background:red;padding:0in 2.25pt 0in 2.25pt;height:19.5pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>0<o:p></o:p></span></p></td><td valign=3Dbottom =
+style=3D'background:white;padding:0in 2.25pt 0in =
+2.25pt;height:19.5pt'></td></tr><tr style=3D'height:19.5pt'><td =
+valign=3Dbottom style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:none;border-right:solid black =
+1.5pt;background:red;padding:0in 2.25pt 0in =
+2.25pt;height:19.5pt'></td><td valign=3Dbottom =
+style=3D'border:none;border-right:solid black =
+1.5pt;background:red;padding:0in 2.25pt 0in =
+2.25pt;height:19.5pt'></td><td valign=3Dbottom =
+style=3D'background:white;padding:0in 2.25pt 0in =
+2.25pt;height:19.5pt'></td></tr><tr style=3D'height:21.0pt'><td =
+valign=3Dbottom style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:none;border-right:solid black =
+1.5pt;background:yellow;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>GOP NET<o:p></o:p></span></p></td><td valign=3Dbottom =
+style=3D'border:none;border-right:solid black =
+1.5pt;background:yellow;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>1,297,902<o:p></o:p></span></p></td><td =
+valign=3Dbottom style=3D'background:white;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'></td></tr><tr style=3D'height:21.75pt'><td =
+valign=3Dbottom style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:solid black 1.0pt;border-right:solid black =
+1.5pt;background:red;padding:0in 2.25pt 0in 2.25pt;height:21.75pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Share (1%)<o:p></o:p></span></p></td><td =
+valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.5pt;border-right:solid black 1.5pt;background:red;padding:0in 2.25pt =
+0in 2.25pt;height:21.75pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>12,979<o:p></o:p></span></p></td><td valign=3Dbottom =
+style=3D'background:white;padding:0in 2.25pt 0in =
+2.25pt;height:21.75pt'></td></tr></table><p class=3DMsoNormal><span =
+lang=3DFR><o:p>&nbsp;</o:p></span></p><table class=3DMsoNormalTable =
+border=3D0 cellspacing=3D0 cellpadding=3D0 width=3D0><tr =
+style=3D'height:21.0pt'><td valign=3Dbottom =
+style=3D'border-top:1.5pt;border-left:1.5pt;border-bottom:1.0pt;border-ri=
+ght:1.0pt;border-color:black;border-style:solid;background:#EEECE1;paddin=
+g:0in 2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal =
+align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Ratios<o:p></o:p></span></p></td><td valign=3Dbottom =
+style=3D'border-top:solid black =
+1.5pt;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.0pt;background:#EEECE1;padding:0in =
+2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>% General Expense<o:p></o:p></span></p></td><td =
+valign=3Dbottom style=3D'border-top:solid black =
+1.5pt;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.5pt;background:#EEECE1;padding:0in =
+2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Coeff on Item<o:p></o:p></span></p></td></tr><tr =
+style=3D'height:21.0pt'><td valign=3Dbottom =
+style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:solid black 1.0pt;border-right:solid black =
+1.0pt;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal =
+align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Total energy<o:p></o:p></span></p></td><td =
+valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><b><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>0%<o:p></o:p></span></b></p></td><td valign=3Dbottom =
+style=3D'border:none;border-right:solid black 1.5pt;padding:0in 2.25pt =
+0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:14.0pt;font-family:"Arial",sans-serif;mso-ligatures:no=
+ne'>0.00<o:p></o:p></span></p></td></tr><tr style=3D'height:21.0pt'><td =
+valign=3Dbottom style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:solid black 1.0pt;border-right:solid black =
+1.0pt;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal =
+align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Salary &amp; Bonus<o:p></o:p></span></p></td><td =
+valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><b><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>25%<o:p></o:p></span></b></p></td><td valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.5pt;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:14.0pt;font-family:"Arial",sans-serif;mso-ligatures:no=
+ne'>0.00<o:p></o:p></span></p></td></tr><tr style=3D'height:21.0pt'><td =
+valign=3Dbottom style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:solid black 1.0pt;border-right:solid black =
+1.0pt;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal =
+align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Food Coef<o:p></o:p></span></p></td><td =
+valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><b><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>24%<o:p></o:p></span></b></p></td><td valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.5pt;background:white;padding:0in 2.25pt =
+0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>0.00<o:p></o:p></span></p></td></tr><tr =
+style=3D'height:21.0pt'><td valign=3Dbottom =
+style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:solid black 1.0pt;border-right:solid black =
+1.0pt;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal =
+align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Grill Coef<o:p></o:p></span></p></td><td =
+valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><b><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>0%<o:p></o:p></span></b></p></td><td valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.5pt;background:white;padding:0in 2.25pt =
+0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>0.00<o:p></o:p></span></p></td></tr><tr =
+style=3D'height:21.0pt'><td valign=3Dbottom =
+style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:solid black 1.0pt;border-right:solid black =
+1.0pt;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal =
+align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Ice Cream Coef<o:p></o:p></span></p></td><td =
+valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><b><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>0%<o:p></o:p></span></b></p></td><td valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.5pt;background:white;padding:0in 2.25pt =
+0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>0.00<o:p></o:p></span></p></td></tr><tr =
+style=3D'height:21.0pt'><td valign=3Dbottom =
+style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:solid black 1.0pt;border-right:solid black =
+1.0pt;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal =
+align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Ice Pan Coef<o:p></o:p></span></p></td><td =
+valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><b><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>0%<o:p></o:p></span></b></p></td><td valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.5pt;background:white;padding:0in 2.25pt =
+0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>0.00<o:p></o:p></span></p></td></tr><tr =
+style=3D'height:21.0pt'><td valign=3Dbottom =
+style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:solid black 1.0pt;border-right:solid black =
+1.0pt;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal =
+align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Seafood Coef<o:p></o:p></span></p></td><td =
+valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><b><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>0%<o:p></o:p></span></b></p></td><td valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.5pt;background:white;padding:0in 2.25pt =
+0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>0.00<o:p></o:p></span></p></td></tr><tr =
+style=3D'height:21.0pt'><td valign=3Dbottom =
+style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:solid black 1.0pt;border-right:solid black =
+1.0pt;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal =
+align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Bev Coef<o:p></o:p></span></p></td><td valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><b><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>6%<o:p></o:p></span></b></p></td><td valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.5pt;background:white;padding:0in 2.25pt =
+0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>0.00<o:p></o:p></span></p></td></tr><tr =
+style=3D'height:21.0pt'><td valign=3Dbottom =
+style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:solid black 1.0pt;border-right:solid black =
+1.0pt;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal =
+align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Wine Coef<o:p></o:p></span></p></td><td =
+valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><b><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>3%<o:p></o:p></span></b></p></td><td valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.5pt;background:white;padding:0in 2.25pt =
+0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>0.00<o:p></o:p></span></p></td></tr><tr =
+style=3D'height:21.0pt'><td valign=3Dbottom =
+style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:solid black 1.0pt;border-right:solid black =
+1.0pt;background:#FFC000;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><b><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Total Food Coef<o:p></o:p></span></b></p></td><td =
+valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.0pt;background:#FFC000;padding:0in =
+2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><b><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>24%<o:p></o:p></span></b></p></td><td valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.5pt;background:#FFC000;padding:0in =
+2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><b><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>3.84<o:p></o:p></span></b></p></td></tr><tr =
+style=3D'height:21.0pt'><td valign=3Dbottom =
+style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:solid black 1.0pt;border-right:solid black =
+1.0pt;background:#FFC000;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><b><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Total Bev Coef<o:p></o:p></span></b></p></td><td =
+valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.0pt;background:#FFC000;padding:0in =
+2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><b><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>9%<o:p></o:p></span></b></p></td><td valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.5pt;background:#FFC000;padding:0in =
+2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><b><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>6.07<o:p></o:p></span></b></p></td></tr><tr =
+style=3D'height:21.0pt'><td valign=3Dbottom =
+style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:solid black 1.0pt;border-right:solid black =
+1.0pt;background:yellow;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><b><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>F&amp;B Coef<o:p></o:p></span></b></p></td><td =
+valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.0pt;background:yellow;padding:0in =
+2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><b><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>26%<o:p></o:p></span></b></p></td><td valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.5pt;background:yellow;padding:0in =
+2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><b><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>3.83<o:p></o:p></span></b></p></td></tr><tr =
+style=3D'height:21.0pt'><td valign=3Dbottom =
+style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:solid black 1.0pt;border-right:solid black =
+1.0pt;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal =
+align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Rental<o:p></o:p></span></p></td><td valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><b><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>27%<o:p></o:p></span></b></p></td><td valign=3Dbottom =
+style=3D'border:none;border-right:solid black 1.5pt;padding:0in 2.25pt =
+0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:14.0pt;font-family:"Arial",sans-serif;mso-ligatures:no=
+ne'>0.00<o:p></o:p></span></p></td></tr><tr style=3D'height:21.0pt'><td =
+valign=3Dbottom style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:solid black 1.0pt;border-right:solid black =
+1.0pt;padding:0in 2.25pt 0in 2.25pt;height:21.0pt'><p class=3DMsoNormal =
+align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Marketing<o:p></o:p></span></p></td><td =
+valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
+2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><b><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>1%<o:p></o:p></span></b></p></td><td valign=3Dbottom =
+style=3D'border:none;border-right:solid black 1.5pt;padding:0in 2.25pt =
+0in 2.25pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:14.0pt;font-family:"Arial",sans-serif;mso-ligatures:no=
+ne'>0.00<o:p></o:p></span></p></td></tr><tr style=3D'height:21.75pt'><td =
+valign=3Dbottom style=3D'border-top:none;border-left:solid black =
+1.5pt;border-bottom:solid black 1.5pt;border-right:solid black =
+1.0pt;padding:0in 2.25pt 0in 2.25pt;height:21.75pt'><p class=3DMsoNormal =
+align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>Maintenance<o:p></o:p></span></p></td><td =
+valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.5pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
+2.25pt;height:21.75pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><b><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>1%<o:p></o:p></span></b></p></td><td valign=3Dbottom =
+style=3D'border-top:none;border-left:none;border-bottom:solid black =
+1.5pt;border-right:solid black 1.5pt;padding:0in 2.25pt 0in =
+2.25pt;height:21.75pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><span =
+style=3D'font-size:14.0pt;font-family:"Arial",sans-serif;mso-ligatures:no=
+ne'>0.00<o:p></o:p></span></p></td></tr><tr style=3D'height:.25in'><td =
+valign=3Dbottom style=3D'border:none;border-bottom:solid black =
+1.0pt;padding:0in 2.25pt 0in 2.25pt;height:.25in'></td><td =
+valign=3Dbottom style=3D'border:none;border-bottom:solid black =
+1.0pt;padding:0in 2.25pt 0in 2.25pt;height:.25in'></td><td =
+valign=3Dbottom style=3D'background:white;padding:0in 2.25pt 0in =
+2.25pt;height:.25in'></td></tr><tr style=3D'height:18.75pt'><td =
+valign=3Dbottom style=3D'border-top:none;border-left:solid black =
+1.0pt;border-bottom:none;border-right:solid black =
+1.0pt;background:red;padding:0in 2.25pt 0in 2.25pt;height:18.75pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><b><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>GOP<o:p></o:p></span></b></p></td><td valign=3Dbottom =
+style=3D'border:none;border-right:solid black =
+1.0pt;background:red;padding:0in 2.25pt 0in 2.25pt;height:18.75pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><b><span =
+style=3D'font-size:14.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>21.69%<o:p></o:p></span></b></p></td><td =
+valign=3Dbottom style=3D'background:white;padding:0in 2.25pt 0in =
+2.25pt;height:18.75pt'></td></tr></table><p class=3DMsoNormal><span =
+lang=3DFR><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><b><u><span =
+lang=3DFR =
+style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;mso-ligatures:=
+none'>Le partage s&#8217;effectue comme =
+suit&nbsp;:<o:p></o:p></span></u></b></p><p class=3DMsoNormal><span =
+lang=3DFR><o:p>&nbsp;</o:p></span></p><table class=3DMsoNormalTable =
+border=3D0 cellspacing=3D0 cellpadding=3D0 width=3D420 =
+style=3D'width:315.2pt;margin-left:-.05pt;border-collapse:collapse'><tr =
+style=3D'height:21.0pt'><td width=3D156 nowrap valign=3Dbottom =
+style=3D'width:117.0pt;border:solid black =
+1.0pt;background:white;padding:0in 5.4pt 0in 5.4pt;height:21.0pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><b><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>Mozza ICON<o:p></o:p></span></b></p></td><td width=3D122 =
+nowrap valign=3Dbottom =
+style=3D'width:91.4pt;background:white;padding:0in 5.4pt 0in =
+5.4pt;height:21.0pt'><p class=3DMsoNormal><span =
+style=3D'font-family:"Calibri",sans-serif;color:black;mso-ligatures:none'=
+>&nbsp;</span><span =
+style=3D'font-family:"Calibri",sans-serif;mso-ligatures:none'><o:p></o:p>=
+</span></p></td><td width=3D142 nowrap valign=3Dbottom =
+style=3D'width:106.8pt;background:white;padding:0in 5.4pt 0in =
+5.4pt;height:21.0pt'><p class=3DMsoNormal><span =
+style=3D'font-family:"Calibri",sans-serif;color:black;mso-ligatures:none'=
+>&nbsp;</span><span =
+style=3D'font-family:"Calibri",sans-serif;mso-ligatures:none'><o:p></o:p>=
+</span></p></td></tr><tr style=3D'height:21.0pt'><td width=3D156 nowrap =
+valign=3Dbottom style=3D'width:117.0pt;border:solid black =
+1.0pt;border-top:none;background:white;padding:0in 5.4pt 0in =
+5.4pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><b><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>PROFIT IN THB<o:p></o:p></span></b></p></td><td =
+width=3D122 nowrap valign=3Dbottom style=3D'width:91.4pt;border:solid =
+black 1.0pt;border-left:none;background:white;padding:0in 5.4pt 0in =
+5.4pt;height:21.0pt'><p class=3DMsoNormal align=3Dcenter =
+style=3D'text-align:center'><b><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>&nbsp;<o:p></o:p></span></b></p></td><td width=3D142 =
+nowrap valign=3Dbottom style=3D'width:106.8pt;border:solid black =
+1.0pt;border-left:none;padding:0in 5.4pt 0in 5.4pt;height:21.0pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><b><span =
+style=3D'font-size:16.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none'>1,000,000.00<o:p></o:p></span></b></p></td></tr><tr =
+style=3D'height:15.75pt'><td width=3D156 nowrap valign=3Dbottom =
+style=3D'width:117.0pt;border:solid black =
+1.0pt;border-top:none;background:white;padding:0in 5.4pt 0in =
+5.4pt;height:15.75pt'><p class=3DMsoNormal><span =
+style=3D'font-family:"Calibri",sans-serif;color:black;mso-ligatures:none'=
+>&nbsp;<o:p></o:p></span></p></td><td width=3D122 nowrap valign=3Dbottom =
+style=3D'width:91.4pt;border-top:none;border-left:none;border-bottom:soli=
+d black 1.0pt;border-right:solid black =
+1.0pt;background:white;padding:0in 5.4pt 0in 5.4pt;height:15.75pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>&nbsp;<o:p></o:p></span></p></td><td width=3D142 nowrap =
+valign=3Dbottom =
+style=3D'width:106.8pt;border-top:none;border-left:none;border-bottom:sol=
+id black 1.0pt;border-right:solid black =
+1.0pt;background:white;padding:0in 5.4pt 0in 5.4pt;height:15.75pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>&nbsp;<o:p></o:p></span></p></td></tr><tr =
+style=3D'height:20.4pt'><td width=3D156 nowrap valign=3Dbottom =
+style=3D'width:117.0pt;border:solid black =
+1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>David<o:p></o:p></span></p></td><td width=3D122 nowrap =
+valign=3Dbottom =
+style=3D'width:91.4pt;border-top:none;border-left:none;border-bottom:soli=
+d black 1.0pt;border-right:solid black =
+1.0pt;background:white;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>35.25%<o:p></o:p></span></p></td><td width=3D142 nowrap =
+valign=3Dbottom =
+style=3D'width:106.8pt;border-top:none;border-left:none;border-bottom:sol=
+id black 1.0pt;border-right:solid black =
+1.0pt;background:white;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>352,500.00<o:p></o:p></span></p></td></tr><tr =
+style=3D'height:20.4pt'><td width=3D156 nowrap valign=3Dbottom =
+style=3D'width:117.0pt;border:solid black =
+1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>Max<o:p></o:p></span></p></td><td width=3D122 nowrap =
+valign=3Dbottom =
+style=3D'width:91.4pt;border-top:none;border-left:none;border-bottom:soli=
+d black 1.0pt;border-right:solid black =
+1.0pt;background:white;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>35.25%<o:p></o:p></span></p></td><td width=3D142 nowrap =
+valign=3Dbottom =
+style=3D'width:106.8pt;border-top:none;border-left:none;border-bottom:sol=
+id black 1.0pt;border-right:solid black =
+1.0pt;background:white;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>352,500.00<o:p></o:p></span></p></td></tr><tr =
+style=3D'height:20.4pt'><td width=3D156 nowrap valign=3Dbottom =
+style=3D'width:117.0pt;border:solid black =
+1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>Guillaume<o:p></o:p></span></p></td><td width=3D122 =
+nowrap valign=3Dbottom =
+style=3D'width:91.4pt;border-top:none;border-left:none;border-bottom:soli=
+d black 1.0pt;border-right:solid black =
+1.0pt;background:white;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>10.00%<o:p></o:p></span></p></td><td width=3D142 nowrap =
+valign=3Dbottom =
+style=3D'width:106.8pt;border-top:none;border-left:none;border-bottom:sol=
+id black 1.0pt;border-right:solid black =
+1.0pt;background:white;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>100,000.00<o:p></o:p></span></p></td></tr><tr =
+style=3D'height:20.4pt'><td width=3D156 nowrap valign=3Dbottom =
+style=3D'width:117.0pt;border:solid black =
+1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>Jeff<o:p></o:p></span></p></td><td width=3D122 nowrap =
+valign=3Dbottom =
+style=3D'width:91.4pt;border-top:none;border-left:none;border-bottom:soli=
+d black 1.0pt;border-right:solid black =
+1.0pt;background:white;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>10.00%<o:p></o:p></span></p></td><td width=3D142 nowrap =
+valign=3Dbottom =
+style=3D'width:106.8pt;border-top:none;border-left:none;border-bottom:sol=
+id black 1.0pt;border-right:solid black =
+1.0pt;background:white;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>100,000.00<o:p></o:p></span></p></td></tr><tr =
+style=3D'height:20.4pt'><td width=3D156 nowrap valign=3Dbottom =
+style=3D'width:117.0pt;border:solid black =
+1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>Cyrille<o:p></o:p></span></p></td><td width=3D122 nowrap =
+valign=3Dbottom =
+style=3D'width:91.4pt;border-top:none;border-left:none;border-bottom:soli=
+d black 1.0pt;border-right:solid black =
+1.0pt;background:white;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>5.00%<o:p></o:p></span></p></td><td width=3D142 nowrap =
+valign=3Dbottom =
+style=3D'width:106.8pt;border-top:none;border-left:none;border-bottom:sol=
+id black 1.0pt;border-right:solid black =
+1.0pt;background:white;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>50,000.00<o:p></o:p></span></p></td></tr><tr =
+style=3D'height:20.4pt'><td width=3D156 nowrap valign=3Dbottom =
+style=3D'width:117.0pt;border:solid black =
+1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>Laurent<o:p></o:p></span></p></td><td width=3D122 nowrap =
+valign=3Dbottom =
+style=3D'width:91.4pt;border-top:none;border-left:none;border-bottom:soli=
+d black 1.0pt;border-right:solid black =
+1.0pt;background:white;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>3.00%<o:p></o:p></span></p></td><td width=3D142 nowrap =
+valign=3Dbottom =
+style=3D'width:106.8pt;border-top:none;border-left:none;border-bottom:sol=
+id black 1.0pt;border-right:solid black =
+1.0pt;background:white;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>30,000.00<o:p></o:p></span></p></td></tr><tr =
+style=3D'height:20.4pt'><td width=3D156 nowrap valign=3Dbottom =
+style=3D'width:117.0pt;border:solid black =
+1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>Boat<o:p></o:p></span></p></td><td width=3D122 nowrap =
+valign=3Dbottom =
+style=3D'width:91.4pt;border-top:none;border-left:none;border-bottom:soli=
+d black 1.0pt;border-right:solid black =
+1.0pt;background:white;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>1.00%<o:p></o:p></span></p></td><td width=3D142 nowrap =
+valign=3Dbottom =
+style=3D'width:106.8pt;border-top:none;border-left:none;border-bottom:sol=
+id black 1.0pt;border-right:solid black =
+1.0pt;background:white;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>10,000.00<o:p></o:p></span></p></td></tr><tr =
+style=3D'height:20.4pt'><td width=3D156 nowrap valign=3Dbottom =
+style=3D'width:117.0pt;border:solid black =
+1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>Paul<o:p></o:p></span></p></td><td width=3D122 nowrap =
+valign=3Dbottom =
+style=3D'width:91.4pt;border-top:none;border-left:none;border-bottom:soli=
+d black 1.0pt;border-right:solid black =
+1.0pt;background:white;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>0.50%<o:p></o:p></span></p></td><td width=3D142 nowrap =
+valign=3Dbottom =
+style=3D'width:106.8pt;border-top:none;border-left:none;border-bottom:sol=
+id black 1.0pt;border-right:solid black =
+1.0pt;background:white;padding:0in 5.4pt 0in 5.4pt;height:20.4pt'><p =
+class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span =
+style=3D'font-size:16.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none'>5,000.00<o:p></o:p></span></p></td></tr></table><p =
+class=3DMsoNormal><span lang=3DFR><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DFR =
+style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;mso-ligatures:=
+none'>Les versements seront faits le vendredi 27 =
+mars.<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DFR =
+style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;mso-ligatures:=
+none'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><b><u><span =
+lang=3DFR =
+style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;color:black;ms=
+o-ligatures:none;mso-fareast-language:FR'>Vous trouverez ci joint le =
+profit tracking&nbsp;:</span></u></b><span lang=3DFR =
+style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif'><o:p></o:p></=
+span></p><p class=3DMsoNormal><span =
+lang=3DFR><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
+style=3D'font-size:10.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none;mso-fareast-language:FR'>Best =
+regards,<o:p></o:p></span></p><p class=3DMsoNormal><span =
+style=3D'font-size:10.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none;mso-fareast-language:FR'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal style=3D'margin-bottom:12.0pt'><span =
+style=3D'font-size:10.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none;mso-fareast-language:FR'>David N</span><span =
+style=3D'font-size:10.0pt;font-family:"Arial",sans-serif;mso-ligatures:no=
+ne'>=E9</span><span =
+style=3D'font-size:10.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none;mso-fareast-language:FR'>marq<br>Co-CEO</span><span =
+style=3D'font-size:10.0pt;font-family:"Arial",sans-serif;mso-ligatures:no=
+ne'><o:p></o:p></span></p><p class=3DMsoNormal><span =
+style=3D'font-size:10.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none;mso-fareast-language:FR'>HOSPITALITY MANAGEMENT ASIA CO., =
+LTD.<br>39 Ekkamai alley soi 12, Prakanong =
+Nueua,<o:p></o:p></span></p><p class=3DMsoNormal><span =
+style=3D'font-size:10.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none;mso-fareast-language:FR'>Watthana,&nbsp;Bangkok 10110, =
+Thailand</span><span =
+style=3D'font-size:10.0pt;font-family:"Arial",sans-serif;mso-ligatures:no=
+ne;mso-fareast-language:FR'><o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:10.0pt;font-family:"Arial",sans-serif;color:black;mso-=
+ligatures:none;mso-fareast-language:FR'>M: +66 85 928 9935</span><span =
+style=3D'font-size:10.0pt;font-family:"Arial",sans-serif;mso-ligatures:no=
+ne;mso-fareast-language:FR'><o:p></o:p></span></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_001_0260_01DCBC7E.2D4E2730--
+
+------=_NextPart_000_025F_01DCBC7E.2D4E2730
+Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;
+	name="Profit tracking Mozza Icon Siam.xlsx"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+	filename="Profit tracking Mozza Icon Siam.xlsx"
+
+UEsDBBQABgAIAAAAIQB0NlqmegEAAIQFAAATAAgCW0NvbnRlbnRfVHlwZXNdLnhtbCCiBAIooAAC
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACs
+VM1OAjEQvpv4DpteDVvwYIxh4YB6VBLwAWo7sA3dtukMCG/vbEFiDEIIXLbZtvP9TGemP1w3rlhB
+Qht8JXplVxTgdTDWzyvxMX3tPIoCSXmjXPBQiQ2gGA5ub/rTTQQsONpjJWqi+CQl6hoahWWI4Plk
+FlKjiH/TXEalF2oO8r7bfZA6eAJPHWoxxKD/DDO1dFS8rHl7q+TTelGMtvdaqkqoGJ3VilioXHnz
+h6QTZjOrwQS9bBi6xJhAGawBqHFlTJYZ0wSI2BgKeZAzgcPzSHeuSo7MwrC2Ee/Y+j8M7cn/rnZx
+7/wcyRooxirRm2rYu1w7+RXS4jOERXkc5NzU5BSVjbL+R/cR/nwZZV56VxbS+svAJ3QQ1xjI/L1c
+QoY5QYi0cYDXTnsGPcVcqwRmQly986sL+I19QodWTo9qLpErJ2GPe4yfW3qcQkSeGgnOF/DTom10
+JzIQJLKwb9JDxb5n5JFzsWNoZ5oBc4Bb5hk6+AYAAP//AwBQSwMEFAAGAAgAAAAhALVVMCP0AAAA
+TAIAAAsACAJfcmVscy8ucmVscyCiBAIooAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACskk1PwzAMhu9I/IfI99XdkBBCS3dBSLshVH6ASdwP
+tY2jJBvdvyccEFQagwNHf71+/Mrb3TyN6sgh9uI0rIsSFDsjtnethpf6cXUHKiZylkZxrOHEEXbV
+9dX2mUdKeSh2vY8qq7iooUvJ3yNG0/FEsRDPLlcaCROlHIYWPZmBWsZNWd5i+K4B1UJT7a2GsLc3
+oOqTz5t/15am6Q0/iDlM7NKZFchzYmfZrnzIbCH1+RpVU2g5abBinnI6InlfZGzA80SbvxP9fC1O
+nMhSIjQS+DLPR8cloPV/WrQ08cudecQ3CcOryPDJgosfqN4BAAD//wMAUEsDBBQABgAIAAAAIQAB
+i+DOPAMAAMUHAAAPAAAAeGwvd29ya2Jvb2sueG1spFVRb6M4EH4/6f6DxTsFk4QAKlmFUHSR2lW1
+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
+AA0AZAMAAJU5AAAAAA==
+
+------=_NextPart_000_025F_01DCBC7E.2D4E2730--
+

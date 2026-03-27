@@ -13,7 +13,7 @@ from ingestion.db import (
     insert_restaurant,
     upsert_monthly_pl,
 )
-from ingestion.import_xlsx import import_xlsx
+from ingestion.import_csv import import_csv
 from ingestion.parse_eml import parse_eml_file
 
 RESTAURANT_NAME_MAP = {
@@ -35,11 +35,11 @@ for _name, _rid in RESTAURANT_NAME_MAP.items():
         _ID_TO_NAME[_rid] = _name
 
 
-def cmd_import_xlsx(args):
-    """Import historical data from Excel file."""
+def cmd_import_csv(args):
+    """Import seed data from CSV files."""
     conn = get_connection(args.db)
     create_schema(conn)
-    import_xlsx(conn, args.file)
+    import_csv(conn, args.data_dir)
 
     # Print row counts
     tables = ["restaurants", "monthly_pl", "dividends", "investments", "ownership"]
@@ -165,10 +165,10 @@ def main():
     parser.add_argument("--db", default=None, help="Path to DuckDB file (default: data/portfolio.duckdb)")
     sub = parser.add_subparsers(dest="command", required=True)
 
-    # import-xlsx
-    p_import = sub.add_parser("import-xlsx", help="Import historical Excel file")
-    p_import.add_argument("file", help="Path to .xlsx file")
-    p_import.set_defaults(func=cmd_import_xlsx)
+    # import-csv
+    p_import = sub.add_parser("import-csv", help="Import seed data from CSV files")
+    p_import.add_argument("data_dir", help="Directory containing CSV files (default: data/)", nargs="?", default="data")
+    p_import.set_defaults(func=cmd_import_csv)
 
     # ingest
     p_ingest = sub.add_parser("ingest", help="Process .eml files from inbox")

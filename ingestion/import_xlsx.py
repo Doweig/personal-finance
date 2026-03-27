@@ -150,15 +150,32 @@ def _import_valuation_sheet(conn, ws, restaurant_id):
 def _import_dividend_sheet(conn, ws, restaurant_id):
     """Import dividends from a dividend sheet.
 
-    Col A = date, col B = total THB, col E = ownership %, col F = comment.
+    Col A = date, col B = total THB, col E = ownership %, col F = comment, col G = 12mma.
     Row with negative col B = initial investment (skip as dividend).
+    Stops at first blank row (summary block follows after blank rows).
     """
+    seen = set()  # Track (date, amount) to skip duplicates
+    last_data_row = 1  # Track where real data ends
+
+    # First pass: find the last contiguous data row (before blank gap)
+    blank_streak = 0
     for row in range(2, ws.max_row + 1):
+        date_val = ws.cell(row, 1).value
+        if date_val is None:
+            if isinstance(ws.cell(row, 1).value, str):
+                break
+            blank_streak += 1
+            if blank_streak >= 3:
+                break  # 3+ blank rows = end of data section
+            continue
+        blank_streak = 0
+        last_data_row = row
+
+    # Second pass: import only rows up to last_data_row
+    for row in range(2, last_data_row + 1):
         date_val = ws.cell(row, 1).value
         dt = _to_date(date_val)
         if dt is None:
-            if isinstance(date_val, str):
-                break  # Hit summary block like "Total"
             continue
 
         total_thb = _num(ws.cell(row, 2).value)
@@ -169,21 +186,29 @@ def _import_dividend_sheet(conn, ws, restaurant_id):
         if total_thb < 0:
             continue
 
-        ownership_pct = _num(ws.cell(row, 5).value)
+        # Skip 12mma summary rows (check column F which holds comments/labels)
+        col_f = ws.cell(row, 6).value
+        if isinstance(col_f, str) and "12mma" in col_f.lower():
+            continue
+
+        # Skip duplicates (same date + amount)
+        key = (dt, total_thb)
+        if key in seen:
+            continue
+        seen.add(key)
+
         comment = ws.cell(row, 6).value
         if isinstance(comment, str):
             comment = comment.strip() or None
         else:
             comment = None
 
-        # Calculate my_share_thb: total_thb is already the investor's share
-        my_share_thb = total_thb
-
+        # total_thb is already the investor's share
         insert_dividend(conn, {
             "restaurant_id": restaurant_id,
             "date": dt,
             "total_thb": total_thb,
-            "my_share_thb": my_share_thb,
+            "my_share_thb": total_thb,
             "comment": comment,
         })
 
@@ -265,8 +290,7 @@ def _import_pl_sheet(conn, ws, restaurant_id, year):
             if not found:
                 continue
 
-        # Read P&L line items
-        revenue = _num(ws.cell(4, val_col).value)
+        # Read P&L line items (cost breakdown detail)
         revenue_n1 = _num(ws.cell(5, val_col).value)
         rebate = _num(ws.cell(7, val_col).value)
         food_cost = _num(ws.cell(8, val_col).value)
@@ -277,12 +301,25 @@ def _import_pl_sheet(conn, ws, restaurant_id, year):
         gop_before_fee = _num(ws.cell(15, val_col).value)
         other_special_fee = _num(ws.cell(16, val_col).value)
         monthly_provision = _num(ws.cell(17, val_col).value)
-        gop_net = _num(ws.cell(19, val_col).value)
+
+        # NOTE: We do NOT read "GOP NET" from row 19. The P&L sheets have
+        # rounded provisioned numbers there (e.g. 5,500,000 instead of
+        # 5,530,757). The accurate net income comes from the valuation
+        # sheets (already imported). We only enrich with cost breakdowns
+        # and use gop_before_fee from the P&L sheet, which matches the
+        # val sheet's "net income" figure.
+
+        # Look up existing gop_net from val sheet import
+        existing = conn.execute(
+            "SELECT gop_net FROM monthly_pl WHERE restaurant_id = $1 AND month = $2",
+            [restaurant_id, month_date],
+        ).fetchone()
+        gop_net = existing[0] if existing else gop_before_fee
 
         upsert_monthly_pl(conn, {
             "restaurant_id": restaurant_id,
             "month": month_date,
-            "revenue": revenue,
+            "revenue": _num(ws.cell(4, val_col).value),
             "revenue_n1": revenue_n1,
             "food_cost": food_cost,
             "beverage_cost": beverage_cost,
