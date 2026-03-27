@@ -63,9 +63,21 @@ qualify row_number() over (partition by restaurant_id order by effective_date de
 ```
 
 ```sql kpi_valuation
-select coalesce(sum(v.blended_valuation * o.ownership_pct / 100.0), 0) as portfolio_valuation
-from ${latest_valuations} v
-join ${latest_ownership} o on v.restaurant_id = o.restaurant_id
+select
+    coalesce(
+        sum(
+            case
+                when v.blended_valuation is not null and o.ownership_pct is not null
+                    then v.blended_valuation * o.ownership_pct / 100.0
+                else coalesce(fi.invested, 0)
+            end
+        ),
+        0
+    ) as portfolio_valuation
+from portfolio.restaurants r
+left join ${latest_valuations} v on r.id = v.restaurant_id
+left join ${latest_ownership} o on r.id = o.restaurant_id
+left join ${first_investment} fi on r.id = fi.restaurant_id
 ```
 
 ```sql latest_month_by_restaurant
@@ -87,7 +99,11 @@ select
     '/restaurants/' || r.id as link_col,
     o.ownership_pct,
     coalesce(fi.invested, 0) as invested,
-    coalesce(v.blended_valuation * o.ownership_pct / 100.0, 0) as my_valuation,
+    case
+        when v.blended_valuation is not null and o.ownership_pct is not null
+            then v.blended_valuation * o.ownership_pct / 100.0
+        else coalesce(fi.invested, 0)
+    end as my_valuation,
     coalesce(d.total_dividends, 0) as total_dividends,
     case
         when coalesce(lm.latest_month, fi.invested_since) is null then ''
