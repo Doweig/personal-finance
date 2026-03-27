@@ -88,9 +88,11 @@ class TestInsertDividend:
             "my_share_thb": 12_500.0,
             "comment": "Q1 dividend",
         })
-        result = conn.execute("SELECT * FROM dividends").fetchone()
-        assert result[3] == 12_500.0  # my_share_thb
-        assert result[4] == "Q1 dividend"
+        result = conn.execute(
+            "SELECT my_share_thb, comment FROM dividends WHERE restaurant_id='r1' AND date='2025-03-15'"
+        ).fetchone()
+        assert result[0] == 12_500.0
+        assert result[1] == "Q1 dividend"
 
 
 class TestInsertInvestment:

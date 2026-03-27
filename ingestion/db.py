@@ -18,7 +18,7 @@ def create_schema(conn):
     conn.execute("""
         CREATE TABLE IF NOT EXISTS restaurants (
             id TEXT PRIMARY KEY,
-            name TEXT,
+            name TEXT NOT NULL,
             restaurant_code TEXT,
             opening_date DATE
         )
@@ -27,8 +27,8 @@ def create_schema(conn):
     conn.execute("""
         CREATE TABLE IF NOT EXISTS ownership (
             restaurant_id TEXT REFERENCES restaurants(id),
-            effective_date DATE,
-            ownership_pct DOUBLE,
+            effective_date DATE NOT NULL,
+            ownership_pct DOUBLE NOT NULL,
             PRIMARY KEY (restaurant_id, effective_date)
         )
     """)
@@ -36,8 +36,8 @@ def create_schema(conn):
     conn.execute("""
         CREATE TABLE IF NOT EXISTS investments (
             restaurant_id TEXT REFERENCES restaurants(id),
-            date DATE,
-            amount_thb DOUBLE,
+            date DATE NOT NULL,
+            amount_thb DOUBLE NOT NULL,
             PRIMARY KEY (restaurant_id, date)
         )
     """)
@@ -45,7 +45,7 @@ def create_schema(conn):
     conn.execute("""
         CREATE TABLE IF NOT EXISTS monthly_pl (
             restaurant_id TEXT REFERENCES restaurants(id),
-            month DATE,
+            month DATE NOT NULL,
             revenue DOUBLE,
             revenue_n1 DOUBLE,
             food_cost DOUBLE,
@@ -65,7 +65,7 @@ def create_schema(conn):
     conn.execute("""
         CREATE TABLE IF NOT EXISTS dividends (
             restaurant_id TEXT REFERENCES restaurants(id),
-            date DATE,
+            date DATE NOT NULL,
             total_thb DOUBLE,
             my_share_thb DOUBLE,
             comment TEXT
